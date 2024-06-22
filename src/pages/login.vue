@@ -1,9 +1,11 @@
 <template>
-<router-view />
+  login
 </template>
 
-<script setup>
+<script>
+export default {
 
+}
 </script>
 
 <style>
