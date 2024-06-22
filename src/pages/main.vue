@@ -9,7 +9,7 @@ import { ref, onMounted } from 'vue';
 const data = ref(null)
 
 onMounted(async () => {
-   const res = await axios.get('http://localhost:3300/api/users');
+   const res = await axios.get(import.meta.env.VITE_HOST + '/api/users');
    data.value = res
    console.log(res.data)
 })

@@ -16,17 +16,18 @@ class Controller {
       res.json(answer.rows)
    }
 
-   async getUser(req, res){
+   //ПОКА НЕ НУЖНО
+   // async getUser(req, res){
 
-   }
+   // }
 
-   async updateUser(req, res){
+   // async updateUser(req, res){
 
-   }
+   // }
 
-   async deleteUser(req, res){
+   // async deleteUser(req, res){
 
-   }
+   // }
 }
 
 export default new Controller()
