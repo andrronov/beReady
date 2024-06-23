@@ -14,3 +14,9 @@ create table tasks(
    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 );
+
+create table tokens(
+   user_id integer not null,
+   token text,
+   foreign key (user_id) references users(id) on delete cascade
+);
