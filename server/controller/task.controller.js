@@ -13,8 +13,7 @@ class TaskController {
    }
 
    async addTask(req, res){
-      const {title, description} = req.body
-      const user_id = req.params.id
+      const {title, description, user_id} = req.body
       try{
          const newTask = await dbp.query('insert into tasks (user_id, title, description) values ($1, $2, $3)', [user_id, title, description])
          res.json(newTask)
@@ -28,9 +27,21 @@ class TaskController {
       const {task_id, is_completed} = req.body
       try{
          const task = await dbp.query('update tasks set is_completed = $1 where id = $2', [is_completed, task_id])
+         res.json(task)
       } catch(err){
          console.error(err);
          res.status(501).json({error: "there's some problem"})
+      }
+   }
+
+   async deleteTask(req, res){
+      const task_id = req.body
+      try{
+         const deleted_task = await dbp.query("delete from tasks where id = $1", [task_id])
+         res.json(deleted_task)
+      } catch(err){
+         console.error(err)
+         res.status(501).json({error: "can't delete this task"})
       }
    }
 }
