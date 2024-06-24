@@ -11,6 +11,23 @@ class TokenService {
       }
    }
 
+   validateAccessToken(token){
+      try {
+         const userData = jwt.verify(token, process.env.JWT_ACCESS_KEY)
+         return userData
+      } catch (err) {
+         return null
+      }
+   }
+   validateRefreshToken(token){
+      try {
+         const userData = jwt.verify(token, process.env.JWT_REFRESH_KEY)
+         return userData
+      } catch (err) {
+         return null
+      }
+   }
+
    async saveToken(user_id, refreshToken){
       const tokenData = await dbp.query('select token from tokens where user_id = $1', [user_id])
       if(tokenData.rows[0]?.token){
@@ -19,6 +36,15 @@ class TokenService {
       }
       const token = await dbp.query('insert into tokens (user_id, token) values ($1, $2)', [user_id, refreshToken])
       return token      
+   }
+
+   async findToken(refreshToken){
+      const token = await dbp.query('select * from tokens where token = $1', [refreshToken])
+      return token.rows[0]
+   }
+   async removeToken(refreshToken){
+      const token = await dbp.query('delete from tokens where token = $1', [refreshToken])
+      return token
    }
 }
 
