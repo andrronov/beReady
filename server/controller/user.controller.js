@@ -13,12 +13,12 @@ class Controller {
             return next(ApiError.BadRequest('Ошибка при валидации', validationErrors.array()))
          }
          const hashedPassword = await bcrypt.hash(password, 10)
-         const newUser = await dbp.query('insert into users (username, password) values ($1, $2) returning id', [username, hashedPassword])
+         const newUser = await dbp.query('insert into users (username, password) values ($1, $2) returning *', [username, hashedPassword])
          const tokens = TokenService.generateToken(newUser.rows[0])
          await TokenService.saveToken(newUser.rows[0].id, tokens.refreshToken)
          res.cookie('refreshToken', tokens.refreshToken, {maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true})
 
-         return res.json({ ...tokens, newUser})
+         return res.json({ ...tokens, username: newUser.rows[0].username, user_id: newUser.rows[0].id})
       } catch(err){
          next(err)
       }
@@ -26,8 +26,9 @@ class Controller {
 
    async login(req, res, next){
       try{
+         console.log('req', req.body);
          const {username, password} = req.body
-         const user = await dbp.query('select id from users where username = $1', [username])
+         const user = await dbp.query('select * from users where username = $1', [username])
          if(user.rows.length < 1){
             throw ApiError.BadRequest('Такого пользователя не существует')
          }
@@ -41,7 +42,7 @@ class Controller {
          
          res.cookie('refreshToken', tokens.refreshToken, {maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true})
 
-         return res.json({ ...tokens, userId: user.rows[0].id})
+         return res.json({ ...tokens, user_id: user.rows[0].id, username: user.rows[0].username})
       } catch(err){
          next(err)
       }
@@ -75,7 +76,7 @@ class Controller {
          
          res.cookie('refreshToken', tokens.refreshToken, {maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true})
 
-         return res.json({ ...tokens, userId: tokenFromDb.user_id})
+         return res.json({ ...tokens, user_id: tokenFromDb.user_id, username: user.rows[0].username})
       } catch (err) {
          next(err)
       }
