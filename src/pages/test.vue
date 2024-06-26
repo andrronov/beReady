@@ -1,11 +1,11 @@
 <template>
-  test page
+  <wrapperUI>
+    test page
+  </wrapperUI>
 </template>
 
-<script>
-export default {
-
-}
+<script setup>
+import wrapperUI from '../components/wrapperUI.vue';
 </script>
 
 <style>

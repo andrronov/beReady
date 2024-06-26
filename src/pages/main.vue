@@ -1,10 +1,9 @@
 <template>
-  <div class="w-full h-screen flex flex-col items-center justify-center gap-8 bg-lime-700 text-xl">
-    main
+  <wrapperUI>
     <p v-if="dataStore.isAuth">Yes!!! {{ dataStore.user }}</p>
     <p v-else>No!!!</p>
     <button @click="logoutUser">Log out</button>
-  </div>
+  </wrapperUI>
 </template>
 
 <script setup>
@@ -12,9 +11,10 @@ import axios from 'axios'
 import { ref, onMounted, watchEffect } from 'vue';
 import router from '../router';
 import { useDataStore } from '../store/store';
+import wrapperUI from '../components/wrapperUI.vue';
 
-const dataStore = useDataStore()
 const data = ref(null)
+const dataStore = useDataStore()
 
 function logoutUser(){
   dataStore.logout()

@@ -24,7 +24,6 @@ export const useDataStore = defineStore('data', {
       },
 
       async login(username, password){
-         console.log(username, password, '---- store');
          try {
             const res = await AuthService.login(username, password)
             localStorage.setItem('token', res.data.accessToken)
@@ -52,6 +51,7 @@ export const useDataStore = defineStore('data', {
             localStorage.removeItem('token')
             this.setAuth(false)
             this.setUser({})
+            router.push('/login')
          } catch (err) {
             console.log(err.res?.data?.message);
          }

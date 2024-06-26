@@ -8,7 +8,7 @@ import TokenService from "../service/token.service.js";
 const router = new Router()
 
 router.get('/users', authMiddleware, Controller.getUsers)
-router.post('/registration', body('password').isLength({min: 3, max: 32}), Controller.createUser)
+router.post('/registration', body(['username', 'password']).isLength({min: 3, max: 32}), Controller.createUser)
 router.post('/login', Controller.login)
 router.post('/logout', Controller.logout)
 router.get('/refresh', Controller.refresh)
