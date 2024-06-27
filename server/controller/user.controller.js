@@ -3,6 +3,7 @@ import bcrypt from 'bcrypt'
 import TokenService from '../service/token.service.js'
 import ApiError from '../exeptions/api-error.js'
 import { validationResult } from 'express-validator'
+import tokenService from '../service/token.service.js'
 
 class Controller {
    async createUser(req, res, next){

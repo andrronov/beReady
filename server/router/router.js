@@ -13,10 +13,11 @@ router.post('/login', Controller.login)
 router.post('/logout', Controller.logout)
 router.get('/refresh', Controller.refresh)
 
-router.get('/tasks/:id', TaskController.getUserTasks)
-router.post('/add-task', TaskController.addTask)
+router.get('/tasks', TaskController.getUserTasks)
+router.post('/add-task', body(['title, description']).isLength({min: 1}), TaskController.addTask)
 router.put('/update-task/:id', TaskController.updateTask)
 router.delete('/delete-task/:id', TaskController.deleteTask)
+
 router.get('/token/:id', TokenService.saveToken)
 
 export default router

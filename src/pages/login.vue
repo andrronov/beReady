@@ -10,7 +10,7 @@
   <wrapperUI v-else>
     <p class="bg-white text-lime-700 p-2">WASSUP!</p>
     <input type="text" placeholder="username" v-model="username" class="bg-white text-lime-700 p-2">
-    <input type="password" placeholder="password" v-model="userPassword" class="bg-white text-lime-700 p-2">
+    <input @keydown.enter="registerUser" type="password" placeholder="password" v-model="userPassword" class="bg-white text-lime-700 p-2">
     <button @click="registerUser" class="bg-white text-lime-700 p-2">Register</button>
     <button @click="isRegister = false" class="bg-gray-100 text-lime-800 p-1">Log In</button>
   </wrapperUI>
@@ -21,11 +21,12 @@ import wrapperUI from '../components/wrapperUI.vue';
 import { ref, onMounted } from 'vue';
 import { useDataStore } from '../store/store.js'
 
+const dataStore = useDataStore()
+
 const isRegister = ref(false)
 const username = ref(null)
 const userPassword = ref(null)
-
-const dataStore = useDataStore()
+const errorLog = ref(null)
 
 function loginUser() {
   dataStore.login(username.value, userPassword.value)

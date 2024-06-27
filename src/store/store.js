@@ -31,7 +31,7 @@ export const useDataStore = defineStore('data', {
             this.setUser(res.data.username, res.data.user_id)
             router.push('/home')
          } catch (err) {
-            console.log(err.res?.data?.message);
+            console.log(err);
          }
       },
       async registration(username, password){
@@ -61,12 +61,11 @@ export const useDataStore = defineStore('data', {
          this.setLoading(true)
          try {
             const res = await axios.get(`${API_URL}/refresh`, {withCredentials: true})
-            console.log(res);
             localStorage.setItem('token', res.data.accessToken)
             this.setAuth(true)
             this.setUser(res.data.username, res.data.user_id)
          } catch (err) {
-            console.log(err.res?.data?.message);
+            console.log(err);
          } finally{
             this.setLoading(false)
          }
